@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "102496909507",
+    "project_id": "expenx-eb3a8",
+    "storage_bucket": "expenx-eb3a8.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:102496909507:android:cfb849e1348b29de200a76",
+        "android_client_info": {
+          "package_name": "com.potatomioo.expenx"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB3fUSmYO1D9aYYCJMySD8qkUkRz5D9E3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

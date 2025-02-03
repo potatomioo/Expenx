@@ -23,11 +23,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.potatomioo.expenx.viewModel.expenxViewModel
+import com.potatomioo.expenx.viewModel.ExpenxViewModel
 
 @Composable
 fun AppScreen(
-    viewModel: expenxViewModel = viewModel()
+    viewModel: ExpenxViewModel = viewModel()
 ) {
 
     var amount by remember { mutableDoubleStateOf(0.0) }

@@ -2,7 +2,9 @@ package com.potatomioo.expenx.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.firestore
 import com.potatomioo.expenx.expenx.Expense
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,18 +13,18 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.util.UUID
 
-class expenxViewModel : ViewModel() {
+class ExpenxViewModel : ViewModel() {
 
-    private val fireStore = FirebaseFirestore.getInstance()
-    private val expensesCollection = fireStore.collection("expenses")
+    private val firestore = Firebase.firestore
+    private val expensesCollection = firestore.collection("expenses")
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     private val _error = MutableStateFlow<String?>(null)
-    val error : StateFlow<String?> = _error.asStateFlow()
+    val error: StateFlow<String?> = _error.asStateFlow()
 
-    fun addExpense(amount : Double, description : String){
+    fun addExpense(amount: Double, description: String) {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
@@ -31,13 +33,11 @@ class expenxViewModel : ViewModel() {
                     amount = amount,
                     description = description
                 )
-                expensesCollection.document(expense.id).set(expense).await()
-            }
-            catch (e : Exception){
-                print("$e")
-                _error.value = "Failed"
-            }
-            finally {
+                expensesCollection.add(expense).await()
+                _error.value = null
+            } catch (e: Exception) {
+                _error.value = "Failed to add expense: ${e.message}"
+            } finally {
                 _isLoading.value = false
             }
         }

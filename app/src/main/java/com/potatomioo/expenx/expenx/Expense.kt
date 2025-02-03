@@ -1,6 +1,6 @@
 package com.potatomioo.expenx.expenx
 
-data class expenx(
+data class Expense(
     val id : String,
     val amount : Double,
     val description : String,

@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,7 +30,7 @@ fun AppScreen(
     viewModel: expenxViewModel = viewModel()
 ) {
 
-    var amount by remember { mutableStateOf(0.0) }
+    var amount by remember { mutableDoubleStateOf(0.0) }
     var description by remember { mutableStateOf("null") }
 
     val isLoading = viewModel.isLoading.collectAsState()
@@ -69,14 +69,14 @@ fun AppScreen(
 
         Button(
             onClick = {
-                if (amount != null && description.isNotBlank()) {
+                if (description.isNotBlank()) {
                     viewModel.addExpense(amount, description)
                     amount = 0.0
                     description = ""
                 }
             },
             modifier = Modifier.fillMaxWidth(),
-            enabled = !isLoading.value && amount!= null && description.isNotBlank()
+            enabled = !isLoading.value && description.isNotBlank()
         ) {
             if (isLoading.value){
                 CircularProgressIndicator(
@@ -86,12 +86,10 @@ fun AppScreen(
                 Text("Add Expense")
             }
         }
-        error?.let { errorMessage ->
-            Text(
-                text = "$errorMessage",
-                color = Color.Red,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-        }
+        Text(
+            text = "${error.value}",
+            color = Color.Red,
+            modifier = Modifier.padding(top = 8.dp)
+        )
         }
 }

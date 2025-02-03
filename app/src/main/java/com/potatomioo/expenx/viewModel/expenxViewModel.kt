@@ -2,10 +2,8 @@ package com.potatomioo.expenx.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.firestore
-import com.potatomioo.expenx.expenx.expenx
+import com.potatomioo.expenx.expenx.Expense
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +14,7 @@ import java.util.UUID
 class expenxViewModel : ViewModel() {
 
     private val fireStore = FirebaseFirestore.getInstance()
-    private val expensesCollection = fireStore.collection("expensews")
+    private val expensesCollection = fireStore.collection("expenses")
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
@@ -28,7 +26,7 @@ class expenxViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 _isLoading.value = true
-                val expense = expenx(
+                val expense = Expense(
                     id = UUID.randomUUID().toString(),
                     amount = amount,
                     description = description
@@ -36,7 +34,7 @@ class expenxViewModel : ViewModel() {
                 expensesCollection.document(expense.id).set(expense).await()
             }
             catch (e : Exception){
-                print(e)
+                print("$e")
                 _error.value = "Failed"
             }
             finally {
